@@ -1,6 +1,4 @@
-# Assuming that the caller repo has
-# - devcontainer setup
-# - pnpm build script
+# Assuming that the caller repo has: devcontainer, pnpm, packages
 
 name: Release
 
@@ -35,7 +33,7 @@ jobs:
           # cause we don't have the token, therefore we add the config remotely
           runCmd: |
             echo -e "\n//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc
-            pnpm run build
+            pnpm --filter "./packages/**" build
             pnpm -r publish --access public --no-git-checks
           env: |
             NPM_TOKEN=${{secrets.NPM_TOKEN}}
